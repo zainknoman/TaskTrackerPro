@@ -663,3 +663,23 @@ input,select,textarea{font:inherit}img{max-width:100%}
   .projects-grid{grid-template-columns:1fr}
   .team-grid{grid-template-columns:1fr}
 }
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.app-footer {
+  flex-shrink: 0;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: .75rem;
+  color: var(--text-3);
+  letter-spacing: .02em;
+  user-select: none;
+}
+.app-footer strong {
+  color: var(--primary);
+  font-weight: 600;
+}
