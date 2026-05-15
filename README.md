@@ -8,7 +8,11 @@
 ![No Dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)
 
 ---
-
+- Design
+<p align="center">
+  <img src="/docs/screenshots/01-dashboard.jpeg" alt="Template Design" width="600"/>
+</p>
+---
 ## Table of Contents
 
 - [Overview](#overview)
@@ -41,6 +45,88 @@ All data is persisted in `localStorage` with auto-save every 1.8 seconds. The en
 - Per-project **Dashboard**, **Kanban**, **Task List**, **Milestones**, and **Sprints** tabs
 - Project **sidebar navigation** with open-task counters
 - Archive, filter, and switch between projects
+## Design Templates / Workflow
+  
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/02-00-projects.jpeg" alt="Projects" width="100%"/>    
+      <br/>
+      <sub><b>Projects</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/02-01-project-overview.jpeg" alt="Project Overview" width="100%"/>    
+      <br/>
+      <sub><b>Project Overview</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/02-02-project-tasks.jpeg" alt="Project Task" width="100%"/>    
+      <br/>
+      <sub><b>Project Task</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/02-03-project-kanban.jpeg" alt="Project Kanban" width="100%"/>
+      <br/>
+      <sub><b>Project Kanban</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/02-04-project-milestones.jpeg" alt="Project Milestones" width="100%"/>    
+      <br/>
+      <sub><b>Project Milestone</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/02-05-project-sprints.jpeg" alt="Project Sprints" width="100%"/>    
+      <br/>
+      <sub><b>Project Sprints</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Kanban Board
+- Four columns: Pending · In Progress · Completed · Blocked
+- **Drag-and-drop** between columns with status auto-update
+- Filter Kanban by project
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/04-kanban.jpeg" alt="Kanban" width="100%"/>
+      <br/>
+      <sub><b>Kanban</b></sub>
+    </td>
+  </tr>
+</table>
+  
+### Gantt Timeline
+- Auto-generated horizontal bar chart across all projects
+- Configurable date range (3 / 6 / 12 months)
+- Milestone markers and task bars colour-coded by project
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/06-ganttTimelines.jpeg" alt="Tasks" width="100%"/>
+      <br/>
+      <sub><b>Tasks</b></sub>
+    </td>
+  </tr>
+</table>
+
+### Analytics
+- Tasks by status and priority (horizontal bar charts)
+- Project progress comparison
+- BA workload distribution
+- Summary KPIs (completion rate, overdue count, blocked rate, estimated hours)
+- Risk indicators panel
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/07-analytics.jpeg" alt="Analytics" width="100%"/>
+      <br/>
+      <sub><b>Analytics</b></sub>
+    </td>
+  </tr>
+</table>
 
 ### Task Management
 - Tasks are linked to Projects, Milestones, Sprints, and parent tasks
@@ -49,24 +135,42 @@ All data is persisted in `localStorage` with auto-save every 1.8 seconds. The en
 - **Dependency tracking** with cross-task linking
 - Star ⭐ and Pin 📌 tasks
 - Full **activity audit log** per task
-
-### Kanban Board
-- Four columns: Pending · In Progress · Completed · Blocked
-- **Drag-and-drop** between columns with status auto-update
-- Filter Kanban by project
-
-### Gantt Timeline
-- Auto-generated horizontal bar chart across all projects
-- Configurable date range (3 / 6 / 12 months)
-- Milestone markers and task bars colour-coded by project
-
-### Analytics
-- Tasks by status and priority (horizontal bar charts)
-- Project progress comparison
-- BA workload distribution
-- Summary KPIs (completion rate, overdue count, blocked rate, estimated hours)
-- Risk indicators panel
-
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/03-00-tasks.jpeg" alt="Tasks" width="100%"/>
+      <br/>
+      <sub><b>Tasks</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/03-01-tasks-view.jpeg" alt="Task View" width="100%"/>
+      <br/>
+      <sub><b>Task View</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/03-02-tasks-edit-basicInfo.jpeg" alt="Task Basic Info" width="100%"/>
+      <br/>
+      <sub><b>Task Basic Info</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/03-02-tasks-edit-schedule.jpeg" alt="Task Schedule" width="100%"/>
+      <br/>
+      <sub><b>Task Schedule</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/03-02-tasks-edit-docs-dependency.jpeg" alt="Task Docs & Dependencies" width="100%"/>
+      <br/>
+      <sub><b>Task Docs & Dependencies</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/03-02-tasks-edit-subtask.jpeg" alt="Task SubTask" width="100%"/>
+      <br/>
+      <sub><b>Task SubTask</b></sub>
+    </td>
+  </tr>
+</table>
 ### Sprint Burndown
 - Per-sprint SVG burndown chart (ideal vs actual remaining tasks)
 - Sprint velocity tracking
@@ -100,18 +204,51 @@ All data is persisted in `localStorage` with auto-save every 1.8 seconds. The en
 - Team member cards with avatar, role, open/done/blocked counters, and workload bar
 - Workload balance suggestion when spread between members exceeds 2 tasks
 - Add new team members inline
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/08-team.jpeg" alt="Team" width="80%"/>
+      <br/>
+    </td>
+  </tr>
+</table>
 
 ### Calendar
 - Monthly calendar with task due-date markers per day
 - Click any task dot to open the task detail modal
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/05-calendar.jpeg" alt="Calendar" width="80%"/>
+      <br/>
+      <sub><b>Calendar</b></sub>
+    </td>
+  </tr>
+</table>
 
 ### Command Palette
 - `Ctrl/⌘ + P` opens a fuzzy-search command launcher
 - Navigate to any view, create tasks/projects, or filter by status in one keystroke
 - Arrow key navigation + Enter to execute
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/09-command-palette.jpeg" alt="Command Palette" width="80%"/>
+      <br/>
+    </td>
+  </tr>
+</table>
 
 ### Global Search
 - `Ctrl/⌘ + K` — live dropdown search across tasks and projects
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/10-global-search.jpeg" alt="Calendar" width="80%"/>
+      <br/>
+    </td>
+  </tr>
+</table>
 
 ### Import / Export
 - **Export JSON** — full data dump (projects, tasks, milestones, sprints, users)
@@ -120,6 +257,20 @@ All data is persisted in `localStorage` with auto-save every 1.8 seconds. The en
 
 ### Dark Mode
 - Toggle in the sidebar; preference persisted across sessions
+<table>
+  <tr>
+    <td align="center">
+      <img src="/docs/screenshots/dark-01-dashboard.jpeg" alt="Dashboard" width="80%"/>
+      <br/>
+      <sub><b>Dashboard</b></sub>
+    </td>
+    <td align="center">
+      <img src="/docs/screenshots/dark-02-03-project-kanban.jpeg" alt="Kanban" width="80%"/>
+      <br/>
+      <sub><b>Kanban</b></sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
