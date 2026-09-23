@@ -165,6 +165,7 @@
               </button>
             </div>
             <select class="filter-select" id="projectStatusFilter"><option value="">All Status</option><option value="planning">Planning</option><option value="active">Active</option><option value="on-hold">On Hold</option><option value="completed">Completed</option></select>
+            <button class="btn btn-secondary" id="exportProjectsBtn">↓ Export JSON</button>
             <button class="btn btn-primary" id="newProjectBtn">+ New Project</button>
           </div>
         </div>
@@ -190,7 +191,11 @@
       <section id="view-tasks" class="view">
         <div class="view-header">
           <div><h1 class="view-title" id="tasksViewTitle">All Tasks</h1><p class="view-subtitle" id="taskCountLabel"></p></div>
-          <div class="view-actions"><button class="btn btn-primary" id="newTaskBtnList">+ New Task</button></div>
+          <div class="view-actions">
+            <button class="btn btn-secondary" id="importTasksBtn">↑ Import Tasks</button>
+            <button class="btn btn-secondary" id="exportTasksBtn">↓ Export JSON</button>
+            <button class="btn btn-primary" id="newTaskBtnList">+ New Task</button>
+          </div>
         </div>
         <div class="filter-bar">
           <select class="filter-select" id="filterProject"><option value="">All Projects</option></select>
@@ -468,7 +473,8 @@
   </div>
 </div>
 
-<input type="file" id="importFileInput" accept=".json" hidden/>
+<input type="file" id="importFileInput" accept=".json,application/json" hidden/>
+<input type="file" id="importTasksFileInput" accept=".json,application/json" hidden/>
 <div class="toast-container" id="toastContainer"></div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="app.js?v=20260923"></script>
