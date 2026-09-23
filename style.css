@@ -585,6 +585,35 @@ input,select,textarea{font:inherit}img{max-width:100%}
 .subtask-detail-item:last-child{border-bottom:none}
 .subtask-detail-item.done span{text-decoration:line-through;color:var(--text-3)}
 
+.detail-section-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.detail-section-header h4{flex:1;margin-bottom:0}
+.detail-copy-btn{padding:2px 7px;border-radius:var(--radius-sm);background:var(--bg);color:var(--text-3);font-size:.68rem;border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:all var(--transition)}
+.detail-copy-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.detail-text{font-size:.85rem;color:var(--text-2);line-height:1.6;white-space:pre-wrap}
+.subtask-detail-item{min-width:0}
+.subtask-detail-title{flex:1;min-width:0;line-height:1.5}
+.subtask-copy-btn{margin-left:auto}
+.markdown-body{color:var(--text-2);font-size:.85rem;line-height:1.65;overflow-wrap:anywhere}
+.markdown-body>:first-child{margin-top:0}
+.markdown-body>:last-child{margin-bottom:0}
+.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{color:var(--text);font-weight:700;line-height:1.3;margin:1em 0 .45em}
+.markdown-body p{margin:.55em 0}
+.markdown-body ul,.markdown-body ol{margin:.55em 0;padding-left:1.5em}
+.markdown-body li{margin:.2em 0}
+.markdown-body blockquote{margin:.7em 0;padding:.35em .8em;border-left:3px solid var(--primary);background:var(--surface-2)}
+.markdown-body code{font-family:monospace;font-size:.82em;background:var(--surface-2);border:1px solid var(--border);border-radius:4px;padding:1px 4px}
+.markdown-body pre{margin:.7em 0;padding:10px 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:auto}
+.markdown-body pre code{background:none;border:none;padding:0}
+.markdown-body a{color:var(--primary)}
+.markdown-body hr{border:0;border-top:1px solid var(--border);margin:1em 0}
+.markdown-body table{width:100%;border-collapse:collapse;margin:.7em 0;font-size:.8rem}
+.markdown-body th,.markdown-body td{padding:6px 8px;border:1px solid var(--border);text-align:left}
+.markdown-body th{background:var(--surface-2);font-weight:700;color:var(--text)}
+.markdown-body img{max-width:100%;height:auto;border-radius:var(--radius-sm)}
+.task-notes-editor-preview{margin-top:8px;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);min-height:40px}
+.task-notes-editor-preview:empty{display:none}
+.task-notes-preview{padding:2px 0}
+
 /* ============================================================
    CONFIRM DIALOG
    ============================================================ */
