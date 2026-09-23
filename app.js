@@ -1521,7 +1521,7 @@ function openTaskDetail(taskId) {
     el.addEventListener('click', () => { closeOverlay('detailOverlay'); openTaskDetail(el.dataset.id); })
   );
 
-  $id('detailExportBtn').onclick = () => exportTaskJSON(taskId);
+  $id('detailExportBtn')?.addEventListener('click', () => exportTaskJSON(taskId));
   $id('detailEditBtn').onclick   = () => { closeOverlay('detailOverlay'); openTaskForm(taskId); };
   $id('detailDeleteBtn').onclick = () => { closeOverlay('detailOverlay'); confirmDeleteTask(taskId); };
   $id('detailStarBtn').onclick   = () => {
