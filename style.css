@@ -587,8 +587,9 @@ input,select,textarea{font:inherit}img{max-width:100%}
 
 .detail-section-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .detail-section-header h4{flex:1;margin-bottom:0}
-.detail-copy-btn{padding:2px 7px;border-radius:var(--radius-sm);background:var(--bg);color:var(--text-3);font-size:.68rem;border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:all var(--transition)}
-.detail-copy-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.detail-copy-btn{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:var(--radius-sm);background:var(--surface);color:var(--primary);font-size:.72rem;font-weight:600;border:1px solid var(--border-2);cursor:pointer;flex-shrink:0;transition:all var(--transition)}
+.detail-copy-btn:hover:not(:disabled){color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.detail-copy-btn:disabled{opacity:.45;cursor:not-allowed}
 .detail-text{font-size:.85rem;color:var(--text-2);line-height:1.6;white-space:pre-wrap}
 .subtask-detail-item{min-width:0}
 .subtask-detail-title{flex:1;min-width:0;line-height:1.5}
