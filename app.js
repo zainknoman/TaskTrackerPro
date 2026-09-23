@@ -557,6 +557,7 @@ function renderProjectDetail(pid) {
         <div class="progress-track"><div class="progress-fill" style="width:${ppct}%;background:linear-gradient(90deg,${p.color},${p.color}88)"></div></div>
       </div>`;
 
+    $id('pdh-exportBtn')?.addEventListener('click', () => exportProjectJSON(pid));
     $id('pdh-editBtn')?.addEventListener('click', () => openProjectForm(pid));
     $id('pdh-newTaskBtn')?.addEventListener('click', () => openTaskForm(null, pid));
   }
@@ -2237,6 +2238,22 @@ function bindEvents() {
   $id('exportCsvBtn')?.addEventListener('click',  e => { e.preventDefault(); exportCSV(); });
   $id('importJsonBtn')?.addEventListener('click', e => { e.preventDefault(); $id('importFileInput').click(); });
   $id('importFileInput')?.addEventListener('change', e => { const f = e.target.files[0]; if (f) { importJSON(f); e.target.value = ''; } });
+  $id('exportProjectsBtn')?.addEventListener('click', () => {
+    const filter = $id('projectStatusFilter')?.value || '';
+    const projects = filter ? state.projects.filter(p => p.status === filter) : state.projects;
+    const data = { exportType:'taskflow-projects', formatVersion:1, exportedAt:new Date().toISOString(), projects, tasks:state.tasks, milestones:state.milestones, sprints:state.sprints };
+    dlFile(JSON.stringify(data, null, 2), 'taskflow_projects.json', 'application/json');
+    toast(`Exported ${projects.length} projects`, 'success');
+  });
+  ['importTasksBtn','importTaskFromProjectsBtn'].forEach(id => {
+    $id(id)?.addEventListener('click', () => $id('importTasksFileInput').click());
+  });
+  $id('importTasksFileInput')?.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (f) importTaskJSON(f);
+    e.target.value = '';
+  });
+  $id('exportTasksBtn')?.addEventListener('click', () => exportJSON());
 
   // ── Keyboard shortcuts ──
   document.addEventListener('keydown', e => {
