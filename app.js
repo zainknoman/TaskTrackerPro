@@ -1520,6 +1520,7 @@ function openTaskDetail(taskId) {
     el.addEventListener('click', () => { closeOverlay('detailOverlay'); openTaskDetail(el.dataset.id); })
   );
 
+  $id('detailExportBtn').onclick = () => exportTaskJSON(taskId);
   $id('detailEditBtn').onclick   = () => { closeOverlay('detailOverlay'); openTaskForm(taskId); };
   $id('detailDeleteBtn').onclick = () => { closeOverlay('detailOverlay'); confirmDeleteTask(taskId); };
   $id('detailStarBtn').onclick   = () => {
@@ -1832,6 +1833,76 @@ function exportJSON() {
   const d = JSON.stringify({ projects:state.projects, tasks:state.tasks, milestones:state.milestones, sprints:state.sprints, users:state.users, exportedAt: new Date().toISOString() }, null, 2);
   dlFile(d, 'taskflow_export.json', 'application/json');
   toast(`Exported ${state.tasks.length} tasks across ${state.projects.length} projects`, 'success');
+}
+
+function exportProjectJSON(projectId) {
+  const project = findProject(projectId);
+  if (!project) return;
+  const tasks = getProjectTasks(projectId);
+  const data = {
+    exportType: 'taskflow-project',
+    formatVersion: 1,
+    exportedAt: new Date().toISOString(),
+    project,
+    tasks,
+    milestones: state.milestones.filter(m => m.projectId === projectId),
+    sprints: state.sprints.filter(s => s.projectId === projectId),
+  };
+  dlFile(JSON.stringify(data, null, 2), `taskflow_project_${project.code || project.id}.json`, 'application/json');
+  toast(`Exported project "${project.name}" with ${tasks.length} tasks`, 'success');
+}
+
+function exportTaskJSON(taskId) {
+  const task = findTask(taskId);
+  if (!task) return;
+  const project = task.projectId ? findProject(task.projectId) : null;
+  const data = {
+    exportType: 'taskflow-task',
+    formatVersion: 1,
+    exportedAt: new Date().toISOString(),
+    task,
+    project: project ? { id: project.id, name: project.name, code: project.code || '' } : null,
+  };
+  dlFile(JSON.stringify(data, null, 2), `taskflow_task_${task.id}.json`, 'application/json');
+  toast(`Exported task "${task.title}"`, 'success');
+}
+
+function importTaskJSON(file) {
+  if (!file || !/\.json$/i.test(file.name)) {
+    toast('Import rejected: only exported .json task files are allowed', 'error');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (d.exportType !== 'taskflow-task' || d.formatVersion !== 1 || !d.task || typeof d.task !== 'object' || Array.isArray(d.task)) {
+        throw new Error('This is not a valid TaskFlow Pro task export');
+      }
+      const task = JSON.parse(JSON.stringify(d.task));
+      const sourceProject = d.project;
+      const matchedProject = sourceProject
+        ? state.projects.find(p => p.id === sourceProject.id) ||
+          state.projects.find(p => sourceProject.code && p.code === sourceProject.code) ||
+          state.projects.find(p => sourceProject.name && p.name === sourceProject.name)
+        : null;
+      task.id = `task-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+      task.projectId = matchedProject?.id || null;
+      task.createdAt = task.createdAt || today();
+      task.updatedAt = today();
+      task.activity = Array.isArray(task.activity) ? task.activity : [];
+      task.activity.push({ time: today(), desc: 'Imported from TaskFlow Pro JSON export' });
+      state.tasks.unshift(task);
+      scheduleSave();
+      refreshView();
+      updateNavBadges();
+      updateSidebarProjects();
+      toast(matchedProject ? `Imported "${task.title}" into ${matchedProject.name}` : `Imported "${task.title}" (project not matched)`, 'success');
+    } catch (err) {
+      toast('Import failed: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
 }
 
 function exportCSV() {
