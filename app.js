@@ -1471,7 +1471,10 @@ function openTaskDetail(taskId) {
       </div>
     </div>
 
-    ${t.description ? `<div class="detail-section"><div class="detail-section-header"><h4>Description</h4><button type="button" class="detail-copy-btn" data-copy-type="description">Copy</button></div><p class="detail-text">${esc(t.description)}</p></div>` : ''}
+    <div class="detail-section">
+      <div class="detail-section-header"><h4>Description</h4><button type="button" class="detail-copy-btn" data-copy-type="description" ${t.description ? '' : 'disabled'}>Copy</button></div>
+      <p class="detail-text">${t.description ? esc(t.description) : '<span class="text-muted">No description</span>'}</p>
+    </div>
 
     ${t.tags?.length ? `<div class="detail-section"><h4>Tags</h4><div style="display:flex;flex-wrap:wrap;gap:6px">${t.tags.map(tg=>`<span class="tag-chip tag-color-${getTagColor(tg)}">${esc(tg)}</span>`).join('')}</div></div>` : ''}
 
@@ -1492,7 +1495,10 @@ function openTaskDetail(taskId) {
         <span class="badge badge-${dt.status}">${STATUS_META[dt.status].label}</span>
       </div>`).join('')}</div>` : ''}
 
-    ${t.notes ? `<div class="detail-section"><div class="detail-section-header"><h4>Notes</h4><button type="button" class="detail-copy-btn" data-copy-type="notes">Copy</button></div><div class="markdown-body task-notes-preview">${renderMarkdown(t.notes)}</div></div>` : ''}
+    <div class="detail-section">
+      <div class="detail-section-header"><h4>Notes</h4><button type="button" class="detail-copy-btn" data-copy-type="notes" ${t.notes ? '' : 'disabled'}>Copy</button></div>
+      <div class="markdown-body task-notes-preview">${t.notes ? renderMarkdown(t.notes) : '<span class="text-muted">No notes</span>'}</div>
+    </div>
 
     <div class="detail-section"><h4>Activity (${t.activity?.length || 0})</h4>
       ${(t.activity||[]).slice().reverse().slice(0,8).map(a=>`<div class="activity-item">
