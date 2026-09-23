@@ -194,6 +194,28 @@ function closeOverlay(id) { document.getElementById(id)?.classList.remove('open'
 function $id(id) { return document.getElementById(id); }
 function setVal(id, v) { const el = $id(id); if (el) el.value = v ?? ''; }
 
+function renderMarkdown(source) {
+  if (!source) return '';
+  if (typeof marked === 'undefined') return esc(source);
+  return marked.parse(source, { breaks: true });
+}
+function renderNotesPreview() {
+  const preview = $id('fNotesPreview');
+  if (!preview) return;
+  preview.innerHTML = renderMarkdown($id('fNotes')?.value || '');
+}
+function fallbackCopyText(value, successMessage) {
+  const textarea = document.createElement('textarea'); textarea.value = value;
+  textarea.style.position = 'fixed'; textarea.style.opacity = '0'; document.body.appendChild(textarea); textarea.select();
+  try { document.execCommand('copy'); toast(successMessage, 'info'); } finally { textarea.remove(); }
+}
+function copyText(text, successMessage = 'Copied!') {
+  if (text == null || text === '') return;
+  const value = String(text);
+  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(value).then(() => toast(successMessage, 'info')).catch(() => fallbackCopyText(value, successMessage));
+  else fallbackCopyText(value, successMessage);
+}
+
 /* ════════════════════════════════════════════════════════════
    ROUTING
    ════════════════════════════════════════════════════════════ */
@@ -1258,6 +1280,7 @@ function openTaskForm(taskId = null, presetProjectId = null) {
   setVal('fActualHours', task?.actualHours || '');
   setVal('fProgress',    task?.progress    || 0);
   setVal('fNotes',       task?.notes       || '');
+  renderNotesPreview();
   const pv = $id('fProgressVal'); if (pv) pv.textContent = (task?.progress || 0) + '%';
 
   // Assignee
@@ -1448,14 +1471,12 @@ function openTaskDetail(taskId) {
       </div>
     </div>
 
-    ${t.description ? `<div class="detail-section"><h4>Description</h4><p style="font-size:.85rem;color:var(--text-2);line-height:1.6">${esc(t.description)}</p></div>` : ''}
+    ${t.description ? `<div class="detail-section"><div class="detail-section-header"><h4>Description</h4><button type="button" class="detail-copy-btn" data-copy-type="description">Copy</button></div><p class="detail-text">${esc(t.description)}</p></div>` : ''}
 
     ${t.tags?.length ? `<div class="detail-section"><h4>Tags</h4><div style="display:flex;flex-wrap:wrap;gap:6px">${t.tags.map(tg=>`<span class="tag-chip tag-color-${getTagColor(tg)}">${esc(tg)}</span>`).join('')}</div></div>` : ''}
 
     ${t.subtasks?.length ? `<div class="detail-section"><h4>Subtasks (${t.subtasks.filter(s=>s.done).length}/${t.subtasks.length})</h4>
-      ${t.subtasks.map(s=>`<div class="subtask-detail-item ${s.done?'done':''}">
-        <span>${s.done?'✅':'⬜'}</span><span>${esc(s.title)}</span>
-      </div>`).join('')}</div>` : ''}
+      ${t.subtasks.map((s,i)=>`<div class="subtask-detail-item ${s.done?'done':''}"><span>${s.done?'✅':'⬜'}</span><span class="subtask-detail-title">${esc(s.title)}</span><button type="button" class="detail-copy-btn subtask-copy-btn" data-si="${i}" title="Copy subtask">Copy</button></div>`).join('')}</div>` : ''}
 
     ${t.documents?.length ? `<div class="detail-section"><h4>Reference Documents</h4>
       ${t.documents.map(doc=>`<div class="doc-link-row">
@@ -1471,7 +1492,7 @@ function openTaskDetail(taskId) {
         <span class="badge badge-${dt.status}">${STATUS_META[dt.status].label}</span>
       </div>`).join('')}</div>` : ''}
 
-    ${t.notes ? `<div class="detail-section"><h4>Notes</h4><p style="font-size:.85rem;color:var(--text-2);line-height:1.6;white-space:pre-wrap">${esc(t.notes)}</p></div>` : ''}
+    ${t.notes ? `<div class="detail-section"><div class="detail-section-header"><h4>Notes</h4><button type="button" class="detail-copy-btn" data-copy-type="notes">Copy</button></div><div class="markdown-body task-notes-preview">${renderMarkdown(t.notes)}</div></div>` : ''}
 
     <div class="detail-section"><h4>Activity (${t.activity?.length || 0})</h4>
       ${(t.activity||[]).slice().reverse().slice(0,8).map(a=>`<div class="activity-item">
@@ -1481,9 +1502,14 @@ function openTaskDetail(taskId) {
     </div>`;
 
   // Wire copy buttons
-  body.querySelectorAll('.doc-copy-btn').forEach(btn =>
-    btn.addEventListener('click', () => navigator.clipboard?.writeText(btn.dataset.url).then(() => toast('Link copied!', 'info')))
-  );
+  body.querySelectorAll('.doc-copy-btn').forEach(btn => btn.addEventListener('click', () => copyText(btn.dataset.url, 'Link copied!')));
+  body.querySelectorAll('.detail-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('subtask-copy-btn')) copyText(t.subtasks?.[Number(btn.dataset.si)]?.title || '', 'Subtask copied!');
+      else if (btn.dataset.copyType === 'description') copyText(t.description, 'Description copied!');
+      else if (btn.dataset.copyType === 'notes') copyText(t.notes, 'Notes copied!');
+    });
+  });
   body.querySelectorAll('.dep-item[data-id]').forEach(el =>
     el.addEventListener('click', () => { closeOverlay('detailOverlay'); openTaskDetail(el.dataset.id); })
   );
@@ -1920,6 +1946,8 @@ function bindEvents() {
       document.querySelector(`.form-tab-panel[data-ftabpanel="${tab.dataset.ftab}"]`)?.classList.add('active');
     });
   });
+
+  $id('fNotes')?.addEventListener('input', renderNotesPreview);
 
   // ── Progress range ──
   $id('fProgress')?.addEventListener('input', e => {
