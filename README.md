@@ -251,9 +251,14 @@ All data is persisted in `localStorage` with auto-save every 1.8 seconds. The en
 </table>
 
 ### Import / Export
-- **Export JSON** — full data dump (projects, tasks, milestones, sprints, users)
+- **Full Export JSON** — complete workspace data (projects, tasks, milestones, sprints, users)
+- **Project Export JSON** — individual project with its tasks, milestones, and sprints
+- **Task Export JSON** — individual task from the Task Detail dialog
+- **Task Import** — import a task only from a valid TaskFlow Pro task JSON export
 - **Export CSV** — flat task list for spreadsheet use
-- **Import JSON** — restore a previous export or migrate data
+- **Strict Task Import Validation** — accepts only `.json` files matching the TaskFlow Pro task export format
+- **Task Detail Copy Controls** — copy Description, Notes/Markdown source, or individual subtask titles
+- **Markdown Notes** — Notes support plain text and Markdown rendering
 
 ### Dark Mode
 - Toggle in the sidebar; preference persisted across sessions
@@ -398,11 +403,37 @@ Click any project in the sidebar or on the Projects view to enter the **Project 
 
 ## Import & Export
 
-### Export
-Click the **⋯ menu → Export JSON** to download a full backup, or **Export CSV** for a flat spreadsheet-friendly format.
+TaskFlow Pro supports complete workspace backups as well as granular project and task JSON files.
 
-### Import
-Click **Import JSON** and select a previously exported `.json` file. This fully replaces the current state including projects, tasks, milestones, sprints, and users.
+### Full Workspace Export / Import
+Use the sidebar **Export JSON** for a complete workspace backup. Use the sidebar **Import JSON** to restore a full workspace backup.
+
+### Project Export
+Open a project and click **Export JSON** in the Project Detail header. The export includes the project, its tasks, milestones, and sprints.
+
+### Task Export
+Open any task in the **Task Detail** dialog and click **Export JSON**. The export contains the task plus lightweight project identification.
+
+### Task Import
+The **Import Tasks** button is available on **All Tasks**, and **Import Task** is available on **Projects**.
+
+Task import accepts only TaskFlow Pro task exports:
+1. File must use the `.json` extension.
+2. `exportType` must be `taskflow-task`.
+3. `formatVersion` must be `1`.
+4. A valid `task` object must be present.
+
+Imported tasks receive a new ID. If the source project's ID, code, or name matches a local project, the task is assigned to that project; otherwise it is imported without a project.
+
+### CSV Export
+Use **Export CSV** for a flat task list suitable for spreadsheet processing.
+
+### JSON Export Formats
+| Export Type | Purpose | Import |
+|-------------|---------|--------|
+| Full workspace export | Complete local backup | Full **Import JSON** |
+| `taskflow-project` | Individual project package | Export only |
+| `taskflow-task` | Individual task package | **Import Task(s)** |
 
 ### JSON Schema
 ```json
